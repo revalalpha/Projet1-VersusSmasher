@@ -1,0 +1,25 @@
+# Dossiers Unity a ignorer
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Ll]ogs/
+UserSettings/
+MemoryCaptures/
+
+# Fichiers de projet et IDE
+*.csproj
+*.sln
+*.unitypackage
+*.pidb
+*.userprefs
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Fichiers systeme
+.DS_Store
+Thumbs.db
