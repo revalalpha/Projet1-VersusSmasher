@@ -2,21 +2,16 @@ using UnityEngine;
 
 public class PlayerCharacter : MonoBehaviour
 {
-    [Header("Gravity")]
-    [SerializeField] private float m_fallingGravity = 15f;
-    [SerializeField] private float m_risingGravity = 25f;
-
-    [Header("Collision")]
-    [SerializeField] private BoxCollider2D m_collider2D;
-    [SerializeField] private LayerMask m_groundLayer;
-    [SerializeField] private float m_skinWidth = 0.01f;
-
     [Header("Movement")]
     [SerializeField] private float m_moveSpeed = 10f;
     [SerializeField] private float m_groundAcceleration = 100f;
     [SerializeField] private float m_groundDeceleration = 100f;
     [SerializeField] private float m_airAcceleration = 50f;
     [SerializeField] private float m_airDeceleration = 50f;
+
+    [Header("Gravity")]
+    [SerializeField] private float m_fallingGravity = 15f;
+    [SerializeField] private float m_risingGravity = 25f;
 
     [Header("Jump")]
     [SerializeField] private float m_jumpForce = 10f;
