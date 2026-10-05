@@ -7,7 +7,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: spinning axe kick
+  m_Name: SpinningAxeKick
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -52,6 +52,32 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &-7692242467490264742
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Body Block
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -203655887218126122, guid: 1cdc294453ff2e24ba515d73d38818c1, type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &-6644812193174987258
 AnimatorState:
   serializedVersion: 6
@@ -59,7 +85,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: webster side kick
+  m_Name: WebsterSideKick
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -85,7 +111,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: back kick
+  m_Name: BackKick
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -115,64 +141,73 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 6040445874598335339}
-    m_Position: {x: 330, y: 210, z: 0}
+    m_Position: {x: 330, y: 140, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3410259963788293030}
-    m_Position: {x: 720, y: 370, z: 0}
+    m_Position: {x: 590, y: 350, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5312042261022230881}
-    m_Position: {x: 330, y: 260, z: 0}
+    m_Position: {x: 330, y: 190, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3399193182419418490}
-    m_Position: {x: 720, y: 270, z: 0}
+    m_Position: {x: 590, y: 250, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -532225246291650948}
-    m_Position: {x: 720, y: 220, z: 0}
+    m_Position: {x: 590, y: 200, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3487896847931497960}
-    m_Position: {x: 330, y: 410, z: 0}
+    m_Position: {x: 330, y: 340, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5544373935480226321}
-    m_Position: {x: 720, y: 420, z: 0}
+    m_Position: {x: 590, y: 400, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8267480508836191918}
-    m_Position: {x: 70, y: 360, z: 0}
+    m_Position: {x: 70, y: 230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -76789347138018446}
-    m_Position: {x: 70, y: 410, z: 0}
+    m_Position: {x: 70, y: 280, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1853426560067403291}
-    m_Position: {x: 330, y: 360, z: 0}
+    m_Position: {x: 330, y: 290, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8856515199071753637}
-    m_Position: {x: 330, y: 310, z: 0}
+    m_Position: {x: 330, y: 240, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4080720161076899220}
-    m_Position: {x: 720, y: 320, z: 0}
+    m_Position: {x: 590, y: 300, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6644812193174987258}
-    m_Position: {x: 330, y: 460, z: 0}
+    m_Position: {x: 330, y: 390, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4316438570124761809}
     m_Position: {x: -180, y: 540, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8736153503206681608}
-    m_Position: {x: 340, y: 120, z: 0}
+    m_Position: {x: -190, y: 170, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7902965198158595204}
-    m_Position: {x: -180, y: 340, z: 0}
+    m_Position: {x: -190, y: 220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2462172633201201066}
-    m_Position: {x: -180, y: 440, z: 0}
+    m_Position: {x: -190, y: 320, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1596997793212512829}
-    m_Position: {x: -180, y: 490, z: 0}
+    m_Position: {x: -190, y: 370, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5164206321982958720}
-    m_Position: {x: -180, y: 390, z: 0}
+    m_Position: {x: -190, y: 270, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6609350973112483683}
-    m_Position: {x: 330, y: 510, z: 0}
+    m_Position: {x: 330, y: 440, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -7692242467490264742}
+    m_Position: {x: -180, y: 590, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 129577772143464369}
+    m_Position: {x: 590, y: 150, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -3605633284438259811}
+    m_Position: {x: -180, y: 640, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -180,9 +215,9 @@ AnimatorStateMachine:
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
-  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_ExitPosition: {x: 250, y: 70, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 6609350973112483683}
+  m_DefaultState: {fileID: -8736153503206681608}
 --- !u!1102 &-4316438570124761809
 AnimatorState:
   serializedVersion: 6
@@ -216,7 +251,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: spinning elbow
+  m_Name: SpinningElbow
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -235,6 +270,32 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &-3605633284438259811
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Death
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -203655887218126122, guid: c95fbdc32f5583440bb41c543f62de90, type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &-3410259963788293030
 AnimatorState:
   serializedVersion: 6
@@ -242,7 +303,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: back fist
+  m_Name: BackFist
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -268,7 +329,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: low kick
+  m_Name: LowKick
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -320,7 +381,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: front sweep
+  m_Name: FrontSweep
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -346,7 +407,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: combo fist
+  m_Name: ComboFist
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -373,7 +434,13 @@ AnimatorController:
   m_PrefabAsset: {fileID: 0}
   m_Name: PlayerAnimatorController
   serializedVersion: 5
-  m_AnimatorParameters: []
+  m_AnimatorParameters:
+  - m_Name: IsAttacking
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -387,6 +454,32 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
+--- !u!1102 &129577772143464369
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Punching
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -203655887218126122, guid: ff8f91cb7c0969845be2b492a2ff46af, type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &2462172633201201066
 AnimatorState:
   serializedVersion: 6
@@ -420,7 +513,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: elbow chop
+  m_Name: ElbowChop
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -446,7 +539,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: jumping side kick
+  m_Name: JumpingSideKick
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -498,7 +591,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: jumping uppercut
+  m_Name: JumpingUppercut
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -524,7 +617,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: axe kick
+  m_Name: AxeKick
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -550,7 +643,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: cressent kick
+  m_Name: CressentKick
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -602,7 +695,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: combo samba
+  m_Name: ComboSamba
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []

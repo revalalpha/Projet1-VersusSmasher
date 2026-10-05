@@ -1,5 +1,7 @@
 using UnityEngine;
 
+[RequireComponent(typeof(MovementSolver))]
+
 public class PlayerCharacter : MonoBehaviour
 {
     [Header("Movement")]
@@ -19,31 +21,82 @@ public class PlayerCharacter : MonoBehaviour
     [SerializeField] private float m_delayBeforeFalling = 0.1f;
     [SerializeField] private float m_coyoteTime = 0.08f;
 
+
+    public Hitbox Hitbox;
+    public Hurtbox Hurtbox;
+
+    private Vector2 m_velocity;
+    public Vector2 Velocity => m_velocity;
+    public Vector2 MoveInput => m_moveInput;
+    private Vector2 m_moveInput;
+    private bool m_jumpInput;
+    private bool m_canCoyoteJump;
+    private CollisionInfo m_collisionInfo;
+
+    private float m_lastJumpInputTime = float.MinValue;
+    private float m_lastGroundedTime = float.MinValue;
+    public float LastJumpInputTime => m_lastJumpInputTime;
+    public float JumpInputBuffer => m_jumpInputBuffer;
+
+    private PlayerMovementStateMachine m_movementStateMachine;
+    public PlayerMovementStateMachine MovementMachine => m_movementStateMachine;
+    private PlayerAttackStateMachine m_attackStateMachine;
+    public PlayerAttackStateMachine AttackMachine => m_attackStateMachine;
+
+    public Animator Animator => animator;
+    public CollisionInfo CollisionInfo => m_movementSolver.CollisionInfo;
+    public bool IsBlocking { get; private set; }
+
+    private MovementSolver m_movementSolver;
     private Animator animator;
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        m_movementSolver = GetComponent<MovementSolver>();
+        m_movementStateMachine = new PlayerMovementStateMachine(this);
+        m_attackStateMachine = new PlayerAttackStateMachine(this);
+
+        m_movementStateMachine.RegisterState(PlayerMovementStateKey.Idle, new IdleState());
+        m_movementStateMachine.RegisterState(PlayerMovementStateKey.Walking, new WalkingState());
+        m_movementStateMachine.RegisterState(PlayerMovementStateKey.Falling, new FallingState());
+        m_movementStateMachine.RegisterState(PlayerMovementStateKey.Jumping, new JumpState());
+        //m_movementStateMachine.RegisterState(PlayerMovementStateKey.Blocking, new BlockingState());
+        //m_movementStateMachine.RegisterState(PlayerMovementStateKey.Death, new DeathState());
+        m_movementStateMachine.RegisterState(PlayerMovementStateKey.Attacking, new IsAttackingState());
+
+        m_attackStateMachine.RegisterState(PlayerAttackStateKey.AxeKick, new AxeKickState());
+        m_attackStateMachine.RegisterState(PlayerAttackStateKey.BackKick, new BackKickState());
+        m_attackStateMachine.RegisterState(PlayerAttackStateKey.SpinningAxeKick, new SpinningAxeKickState());
+        m_attackStateMachine.RegisterState(PlayerAttackStateKey.LowKick, new LowKickState());
+        m_attackStateMachine.RegisterState(PlayerAttackStateKey.JumpingSideKick, new JumpingSideKickState());
+        m_attackStateMachine.RegisterState(PlayerAttackStateKey.WebsterSideKick, new WebsterSideKickState());
+        m_attackStateMachine.RegisterState(PlayerAttackStateKey.CressentKick, new CressentKickState());
+        m_attackStateMachine.RegisterState(PlayerAttackStateKey.Punching, new PunchingState());
+        m_attackStateMachine.RegisterState(PlayerAttackStateKey.FrontSweep, new FrontSweepState());
+        m_attackStateMachine.RegisterState(PlayerAttackStateKey.ElbowChop, new ElbowChopState());
+        m_attackStateMachine.RegisterState(PlayerAttackStateKey.SpinningElbow, new SpinningElbowState());
+        m_attackStateMachine.RegisterState(PlayerAttackStateKey.BackFist, new BackFistState());
+        m_attackStateMachine.RegisterState(PlayerAttackStateKey.JumpingUppercut, new JumpingUppercutState());
+        m_attackStateMachine.RegisterState(PlayerAttackStateKey.ComboSamba, new ComboSambaState());
+        m_attackStateMachine.RegisterState(PlayerAttackStateKey.ComboFist, new ComboFistState());
+        m_attackStateMachine.RegisterState(PlayerAttackStateKey.None, new NoAttackState());
+
+        m_movementStateMachine.SetState(PlayerMovementStateKey.Idle);
+        m_attackStateMachine.SetState(PlayerAttackStateKey.None);
     }
-
-    private CollisionInfo m_collisionInfo;
-    private Vector2 m_velocity;
-    private Vector2 m_moveInput;
-    private bool m_jumpInput;
-    private bool m_canCoyoteJump;
-
-    private float m_lastJumpInputTime = float.MinValue;
-    private float m_lastGroundedTime = float.MinValue;
 
     private void Update()
     {
-        if (m_collisionInfo.m_below || m_collisionInfo.m_above)
+        m_collisionInfo = m_movementSolver.CollisionInfo;
+        if (m_collisionInfo.m_above && m_velocity.y > 0)
             m_velocity.y = 0;
 
-        animator.SetFloat("Speed", Mathf.Abs(m_velocity.x));
-        animator.SetBool("IsGrounded", m_collisionInfo.m_below);
-        animator.SetFloat("VerticalVelocity", m_velocity.y);
+        if (m_collisionInfo.m_below && m_velocity.y < 0)
+            m_velocity.y = 0;
 
-        ProcessJump();
+        //animator.SetFloat("Speed", Mathf.Abs(m_velocity.x));
+        //animator.SetBool("IsGrounded", m_collisionInfo.m_below);
+        //animator.SetFloat("VerticalVelocity", m_velocity.y);
 
         float gravity = m_velocity.y >= 0 ? m_risingGravity : m_fallingGravity;
         m_velocity.y -= gravity * Time.deltaTime;
@@ -60,107 +113,32 @@ public class PlayerCharacter : MonoBehaviour
 
         Vector2 deltaPosition = m_velocity * Time.deltaTime;
 
-        m_collisionInfo.Reset();
-
-        ProcessMove(ref deltaPosition);
-
         if(m_collisionInfo.m_below)
         {
             m_lastGroundedTime = Time.time;
             m_canCoyoteJump = true;
         }
 
-
+        m_movementSolver.ProcessMove(ref deltaPosition);
         transform.Translate(deltaPosition);
 
         m_jumpInput = false;
+
+        m_movementStateMachine.Update();
+        m_attackStateMachine.Update();
     }
 
-    private void ProcessMove(ref Vector2 deltaPosition)
-    {
-        if (deltaPosition.x != 0)
-            ProcessHorizontalCollision(ref deltaPosition);
+    private EnemyCharacter m_enemy;
 
-        if (deltaPosition.y != 0)
-            ProcessVerticalCollision(ref deltaPosition);
+    public void SetEnemy(EnemyCharacter enemy)
+    {
+        m_enemy = enemy;
     }
 
-    private void ProcessJump()
+    public void ApplyKnockback(Vector2 force)
     {
-        bool mustJump = false;
-        if (Time.time - m_lastJumpInputTime <= m_jumpInputBuffer && m_collisionInfo.m_below)
-            mustJump = true;
-        if (m_canCoyoteJump && Time.time - m_lastGroundedTime <= m_coyoteTime && !m_collisionInfo.m_below && m_lastJumpInputTime >= 0)
-            mustJump = true;
-
-        if(mustJump)
-        {
-            animator.SetTrigger("Jump");
-            m_velocity.y = m_jumpForce;
-            m_lastJumpInputTime = float.MinValue; //Reset the buffer time so it doesn't keep jumping
-            m_canCoyoteJump = false; //Reset coyote jump so it doesn't keep jumping
-        }
-
-        //if (Time.time - m_lastJumpInputTime <= m_jumpInputBuffer && m_collisionInfo.m_below)
-        //{
-        //    m_velocity.y = m_jumpForce;
-        //    m_lastJumpInputTime = float.MinValue; //Reset the buffer time so it doesn't keep jumping
-        //    m_canCoyoteJump = false;
-        //}
-
-        //if (m_canCoyoteJump && Time.time - m_lastGroundedTime <= m_coyoteTime && !m_collisionInfo.m_below && m_lastJumpInputTime >= 0)
-        //{
-        //    m_velocity.y = m_jumpForce;
-        //    m_lastJumpInputTime = float.MinValue; //Reset the buffer time so it doesn't keep jumping
-        //    m_canCoyoteJump = false; //Reset coyote jump so it doesn't keep jumping
-
-        //}
-    }
-
-    private void ProcessHorizontalCollision(ref Vector2 deltaPosition)
-    {
-        float directionX = Mathf.Sign(deltaPosition.x);
-
-        Vector3 origin = transform.position + (Vector3)m_collider2D.offset;
-
-        RaycastHit2D hit = Physics2D.BoxCast(
-            origin,
-            m_collider2D.size,
-            0f,
-            Vector2.right * directionX,
-            Mathf.Abs(deltaPosition.x) + m_skinWidth,
-            m_groundLayer
-        );
-
-        if (hit)
-        {
-            deltaPosition.x = (hit.distance - m_skinWidth) * directionX;
-            m_collisionInfo.m_left = directionX < 0;
-            m_collisionInfo.m_right = directionX > 0;
-        }
-    }
-
-    private void ProcessVerticalCollision(ref Vector2 deltaPosition)
-    {
-        float directionY = Mathf.Sign(deltaPosition.y);
-
-        Vector3 origin = transform.position + (Vector3)m_collider2D.offset;
-
-        RaycastHit2D hit = Physics2D.BoxCast(
-            origin + new Vector3(deltaPosition.x,0),
-            m_collider2D.size,
-            0f,
-            Vector2.up * directionY,
-            Mathf.Abs(deltaPosition.y) + m_skinWidth,
-            m_groundLayer
-        );
-
-        if (hit)
-        {
-            deltaPosition.y = (hit.distance - m_skinWidth) * directionY;
-            m_collisionInfo.m_below = directionY < 0;
-            m_collisionInfo.m_above = directionY > 0;
-        }
+        m_velocity.x += force.x;
+        m_velocity.y += force.y;
     }
 
     public void Move(Vector2 moveInput)
@@ -171,5 +149,20 @@ public class PlayerCharacter : MonoBehaviour
     public void Jump()
     {
         m_lastJumpInputTime = Time.time;
+    }
+
+    public void ApplyJumpForce()
+    {
+        m_velocity.y = m_jumpForce;
+    }
+
+    public void Attack(PlayerAttackStateKey key)
+    {
+        if (AttackMachine.CurrentKey != PlayerAttackStateKey.None)
+            return;
+
+        MovementMachine.SetState(PlayerMovementStateKey.Attacking);
+
+        AttackMachine.SetState(key);
     }
 }
